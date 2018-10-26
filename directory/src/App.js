@@ -18,6 +18,7 @@ import MaterialIcons from '../../glyphmaps/MaterialIcons.json';
 import Octicons from '../../glyphmaps/Octicons.json';
 import SimpleLineIcons from '../../glyphmaps/SimpleLineIcons.json';
 import Zocial from '../../glyphmaps/Zocial.json';
+import { TitleBar, Toolbar, SearchField } from 'react-desktop/macOs';
 
 const IconFamilies = {
   AntDesign,
@@ -187,6 +188,15 @@ class App extends PureComponent {
   render() {
     return (
       <div className="App">
+        <TitleBar inset>
+          <Toolbar height="43" horizontalAlignment="right">
+            <SearchField
+              placeholder="Search"
+              defaultValue=""
+              onChange={this.handleChange}
+            />
+          </Toolbar>
+        </TitleBar>
         <HeaderBar />
         <SearchBar onSubmit={this.handleSubmit} />
         <div className="Container">
