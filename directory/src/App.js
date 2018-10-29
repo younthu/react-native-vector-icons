@@ -19,6 +19,10 @@ import Octicons from '../../glyphmaps/Octicons.json';
 import SimpleLineIcons from '../../glyphmaps/SimpleLineIcons.json';
 import Zocial from '../../glyphmaps/Zocial.json';
 import { TitleBar, Toolbar, SearchField } from 'react-desktop/macOs';
+// render html fragment to png
+import html2canvas from 'html2canvas'
+// Get ReactDOM
+import ReactDOM from "react-dom"
 
 const IconFamilies = {
   AntDesign,
@@ -108,6 +112,49 @@ class SearchBar extends PureComponent {
   }
 }
 
+
+
+class Box extends PureComponent {
+  constructor() {
+    super()
+    this.state = {color:'white',index:0, dataURL:''}
+  }
+
+  render(){
+    return this.renderIcon(this.props.family, this.props.name);
+  }
+  renderIcon(family, name) {
+    let familyName = family;
+
+    if (family === 'FontAwesome5') {
+      if (FontAwesome5Meta['solid'].indexOf(name) === -1)
+        familyName = 'FontAwesome5Brands';
+    }
+
+    return (
+      <div className="Result-Icon-Container" key={name} style={{'background-color':this.state.color}} onClick={()=>{
+        this.setState({color: ['white','black','red','blue'][(this.state.index + 1)%4], index: this.state.index+1})
+      }}>
+        <Icon family={familyName} name={name} className="Result-Icon" />
+        <h4 className="Result-Icon-Name">{name}</h4>
+
+        <div style={{display: 'block'}}>
+          <button onClick={()=>{
+            {/*alert('hi')*/}
+            let that = this
+            html2canvas(ReactDOM.findDOMNode(this)).then(function(canvas) {
+              document.body.appendChild(canvas);
+              that.setState({dataURL: canvas.toDataURL()})
+              console.log(canvas.toDataURL())
+            });
+          }}>导出</button>
+          <a href={this.state.dataURL} download="testicon.png" target="_blank" >下载</a>
+        </div>
+      </div>
+    );
+  }
+}
+
 class App extends PureComponent {
   constructor() {
     super();
@@ -170,10 +217,7 @@ class App extends PureComponent {
     }
 
     return (
-      <div className="Result-Icon-Container" key={name}>
-        <Icon family={familyName} name={name} className="Result-Icon" />
-        <h4 className="Result-Icon-Name">{name}</h4>
-      </div>
+      <Box family={familyName} name={name} />
     );
   }
 
@@ -193,7 +237,7 @@ class App extends PureComponent {
             <SearchField
               placeholder="Search"
               defaultValue=""
-              onChange={this.handleChange}
+              onEnter={this.handleSubmit}
             />
           </Toolbar>
         </TitleBar>

@@ -2,7 +2,7 @@
   "name": "react-native-vector-icons-directory",
   "version": "0.0.1",
   "private": true,
-  "main":"main.js",
+  "main": "main.js",
   "homepage": "https://oblador.github.io/react-native-vector-icons",
   "devDependencies": {
     "electron": "^3.0.0",
@@ -11,7 +11,10 @@
   },
   "dependencies": {
     "@material-ui/core": "^3.1.1",
+    "html2canvas": "^1.0.0-alpha.12",
+    "jquery": "^3.3.1",
     "lodash": "^4.14.0",
+    "rc-menu": "^7.4.17",
     "react": "^15.3.2",
     "react-desktop": "^0.3.7",
     "react-dom": "^15.3.2"
